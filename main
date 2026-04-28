@@ -1,0 +1,65 @@
+n = 4
+edges = [
+    (0, 1),
+    (1, 2),
+    (2, 0),
+    (1, 3)
+]
+
+v = 0
+K = 4
+
+# строим граф
+def build_graph(edges):
+    graph = {}
+
+    for i in range(n):
+        graph[i] = []
+
+    for u, to in edges:
+        graph[u].append(to)
+    return graph
+
+# нормализуем цикл
+def normalized_cycle(cycle):
+    cycle = cycle[:-1]  # убираем последний элемент, тк он равен первому
+
+    variants = []
+
+    for i in range(len(cycle)):
+        shifted = cycle[i:] + cycle[:i]
+        variants.append(shifted)
+
+    best = min(variants)
+    best.append(best[0])
+    return tuple(best)
+
+# поиск циклов
+def find_cycles(graph, start, K):
+    cycles = set()
+
+    def find(cur, visited, path):
+        if len(path) > K: # если путь слишком длинный — стоп
+            return
+
+        for to in graph[cur]:
+
+            if to == start and len(path) > 1:
+                cycle = path + [start]
+                cycles.add(normalized_cycle(cycle))
+
+            elif to not in visited:
+                find(to, visited | {to}, path + [to])
+
+    find(start, {start}, [start])
+
+    return cycles
+
+graph = build_graph(edges)
+cycles = find_cycles(graph, v, K)
+
+print("Найденные циклы:")
+for c in cycles:
+    print(list(c))
+print("Количество циклов:", len(cycles))
+print("Существует ли цикл через вершину", v, ":", len(cycles) > 0)
