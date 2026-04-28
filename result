@@ -1,0 +1,13 @@
+graph = build_graph(edges)
+cycles = find_cycles(graph, v, K)
+
+print("Найденные циклы:")
+for c in cycles:
+    print(list(c))
+print("Количество циклов:", len(cycles))
+print("Существует ли цикл через вершину", v, ":", len(cycles) > 0)
+
+# Результат: Найденные циклы:
+#[0, 1, 2, 0]
+#Количество циклов: 1
+#Существует ли цикл через вершину 0 : True
