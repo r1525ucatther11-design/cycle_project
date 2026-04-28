@@ -54,12 +54,3 @@ def find_cycles(graph, start, K):
     find(start, {start}, [start])
 
     return cycles
-
-graph = build_graph(edges)
-cycles = find_cycles(graph, v, K)
-
-print("Найденные циклы:")
-for c in cycles:
-    print(list(c))
-print("Количество циклов:", len(cycles))
-print("Существует ли цикл через вершину", v, ":", len(cycles) > 0)
